@@ -1,3 +1,11 @@
+
 body {
-  color: red;
+  background-color: black;
+}
+
+.game-window {
+  position: absolute;
+  left: calc(50% - (1024px / 2));
+  top: calc(50% - (768px / 2));
+  border: 1px solid white;
 }
