@@ -1,9 +1,12 @@
 
 import * as Pixi from 'pixi.js';
+import Sprite from './sprite';
 
 export default class Game {
 
 	private fApp: Pixi.Application;
+	private fTest: number = 0;
+	private fSprite: Sprite;
 
 	/**
 	 * Inicjuje silnik graficzny gry.
@@ -26,12 +29,17 @@ export default class Game {
 	 */
 	public run(): void {
 
-		const sprite: Pixi.Sprite = Pixi.Sprite.fromImage( require('../data/monster.gif') );
-		sprite.texture.frame = new Pixi.Rectangle(0, 0, 32, 32);
-		this.fApp.stage.addChild(sprite);
+		this.fSprite = new Sprite( require('../data/monster.gif') , {
+			patternWidth: 32,
+			patternHeight: 32,
+			sheetWidth: 96,
+			sheetHeight: 2048,
+		} );
 
-		sprite.x = 300;
-		sprite.y = 200;
+		this.fApp.stage.addChild(this.fSprite);
+
+		this.fSprite.x = 300;
+		this.fSprite.y = 200;
 
 		this.fApp.ticker.add(() => {
 			const delta: number = this.fApp.ticker.elapsedMS / 1000;
@@ -45,7 +53,9 @@ export default class Game {
 	 * argumencie tej funkcji przekazywana jest ilość sekund która upłynęła od ostatniej aktualizacji animacji.
 	 */
 	public timeSlice(delta: number): void {
-		console.log('d2', delta);
+		this.fTest += delta * 6;
+		this.fSprite.frame = Math.floor(this.fTest) % 30 * 3;
+		console.log(this.fSprite.frame);
 	}
 
 }
